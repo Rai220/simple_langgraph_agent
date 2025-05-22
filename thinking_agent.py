@@ -96,10 +96,10 @@ When using the think tool:
 
 tools = [Think, Critic]
 
-# agent = create_react_agent(giga, tools=tools, prompt=system)
+agent = create_react_agent(giga, tools=tools, prompt=system)
 
-def create_agent():
-    return create_react_agent(giga, tools=tools, prompt=system)
+# def create_agent():
+    #return create_react_agent(giga, tools=tools, prompt=system)
 
 # inputs = {"messages": [("user", "У Алисы было 2 брата и одна сестра. Сколько сестер у братьев алисы?")]}
 # print_stream(agent.stream(inputs, config=config, stream_mode="values"))
