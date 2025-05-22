@@ -1,0 +1,7 @@
+{
+    "dependencies": ["."],
+    "graphs": {
+      "agent": "./thinking_agent.py:agent"
+    },
+    "env": ".env"
+}

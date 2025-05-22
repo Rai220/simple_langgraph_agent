@@ -1,0 +1,10 @@
+[project]
+name = "simple-langgraph-agent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "langchain-gigachat>=0.3.10",
+    "langgraph>=0.4.5",
+]
