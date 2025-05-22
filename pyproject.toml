@@ -3,7 +3,7 @@ name = "simple-langgraph-agent"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
     "langchain>=0.3.25",
     "langchain-gigachat>=0.3.10",
