@@ -6,15 +6,17 @@ from pydantic import BaseModel, Field
 
 load_dotenv(find_dotenv())
 
+            
+class SearchInput(BaseModel):
+    """Поисковый запрос"""
+    query: str = Field(..., description="Текст поискового запроса")
 
-def print_stream(stream):
-    for s in stream:
-        message = s["messages"][-1]
-        if isinstance(message, tuple):
-            print(message)
-        else:
-            message.pretty_print()
-
+search_tool = TavilySearch(
+    max_results=5,
+    topic="general",
+    description="Используется для поиска данных в интернете",
+    args_schema=SearchInput,
+)
 
 class Think(BaseModel):
     """Используется для рассуждений"""
@@ -57,33 +59,10 @@ giga = CustomGigaChat(model="GigaChat-2-Max",
 
 
 
-config={"recursion_limit": 50}
+config={"recursion_limit": 10}
 
-system = """You have access to a "think" tool that provides a dedicated space for structured reasoning. Using this tool significantly improves your performance on complex tasks. 
-
-## When to use the think tool 
-Before taking any action or responding to the user after receiving tool results, use the think tool as a scratchpad to: 
-- List the specific rules that apply to the current request 
-- Check if all required information is collected 
-- Verify that the planned action complies with all policies 
-- Iterate over tool results for correctness 
-- Analyze complex information from web searches or other tools 
-- Plan multi-step approaches before executing them 
-
-## How to use the think tool effectively 
-When using the think tool: 
-1. Break down complex problems into clearly defined steps 
-2. Identify key facts, constraints, and requirements 
-3. Check for gaps in information and plan how to fill them 
-4. Evaluate multiple approaches before choosing one 
-5. Verify your reasoning for logical errors or biases"""
+system = """Ты полезный ассистент"""
 
 tools = [Think, Critic]
 
 agent = create_react_agent(giga, tools=tools, prompt=system)
-
-# def create_agent():
-    #return create_react_agent(giga, tools=tools, prompt=system)
-
-# inputs = {"messages": [("user", "У Алисы было 2 брата и одна сестра. Сколько сестер у братьев алисы?")]}
-# print_stream(agent.stream(inputs, config=config, stream_mode="values"))
