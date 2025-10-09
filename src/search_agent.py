@@ -6,7 +6,15 @@ from pydantic import BaseModel, Field
 
 load_dotenv(find_dotenv())
 
-            
+
+# def print_stream(stream):
+#     for s in stream:
+#         message = s["messages"][-1]
+#         if isinstance(message, tuple):
+#             print(message)
+#         else:
+#             message.pretty_print()
+
 class SearchInput(BaseModel):
     """Поисковый запрос"""
     query: str = Field(..., description="Текст поискового запроса")
@@ -17,16 +25,6 @@ search_tool = TavilySearch(
     description="Используется для поиска данных в интернете",
     args_schema=SearchInput,
 )
-
-class Think(BaseModel):
-    """Используется для рассуждений"""
-    thought: str = Field(..., description="Твои рассуждения")
-
-class Critic(BaseModel):
-    """Используется для критики промежуточных результатов. Используй перечисления и для любых перечислений обязательно используй нумерацию."""
-    critic: str = Field(..., description="Конструктивная и внимательная критика промежуточных результатов на следование КАЖДОМУ условию")
-
-tools = [Think, Critic]
 
 class CustomGigaChat(GigaChat):
     def invoke(self, *args, **kwargs):
@@ -63,6 +61,12 @@ config={"recursion_limit": 10}
 
 system = """Ты полезный ассистент"""
 
-tools = [Think, Critic]
+tools = [search_tool]
 
 agent = create_react_agent(giga, tools=tools, prompt=system)
+
+# def create_agent():
+#     return create_react_agent(giga, tools=tools, prompt=system)
+
+# inputs = {"messages": [("user", "Какая погода завтра в Москве?")]}
+# print_stream(agent.stream(inputs, config={}, stream_mode="values"))
